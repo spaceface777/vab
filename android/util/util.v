@@ -5,10 +5,12 @@ import os
 // Utility functions
 pub fn find_sorted(path string) []string {
 	mut dirs := []string{}
-	mut files := os.ls(path) or { return dirs }
+	mut files := os.ls(path) or {
+		return dirs
+	}
 	for file in files {
-		if os.is_dir(os.real_path(os.join_path(path,file))) {
-			dirs << os.real_path(os.join_path(path,file))
+		if os.is_dir(os.real_path(os.join_path(path, file))) {
+			dirs << os.real_path(os.join_path(path, file))
 		}
 	}
 	dirs.sort()
@@ -18,9 +20,11 @@ pub fn find_sorted(path string) []string {
 
 pub fn ls_sorted(path string) []string {
 	mut dirs := []string{}
-	mut files := os.ls(path) or { return dirs }
+	mut files := os.ls(path) or {
+		return dirs
+	}
 	for file in files {
-		if os.is_dir(os.real_path(os.join_path(path,file))) {
+		if os.is_dir(os.real_path(os.join_path(path, file))) {
 			dirs << file
 		}
 	}
@@ -30,7 +34,7 @@ pub fn ls_sorted(path string) []string {
 }
 
 pub fn cache_dir() string {
-	return os.join_path(os.cache_dir(),'v','android')
+	return os.join_path(os.cache_dir(), 'v', 'android')
 }
 
 pub fn verbosity_print_cmd(args []string, verbosity int) {
@@ -46,7 +50,7 @@ pub fn verbosity_print_cmd(args []string, verbosity int) {
 pub fn run_or_exit(args []string) string {
 	res := run(args)
 	if res.exit_code > 0 {
-		eprintln('${args[0]} failed with return code ${res.exit_code}')
+		eprintln('${args[0]} failed with return code $res.exit_code')
 		eprintln(res.output)
 		exit(1)
 	}
@@ -54,7 +58,9 @@ pub fn run_or_exit(args []string) string {
 }
 
 pub fn run(args []string) os.Result {
-	res := os.exec(args.join(' ')) or { os.Result{1,''} }
+	res := os.exec(args.join(' ')) or {
+		os.Result{1, ''}
+	}
 	return res
 }
 
@@ -65,13 +71,12 @@ pub fn unzip(file string, dir string) bool {
 	zip.extract_entry(dir)
 	zip.close()
 	*/
-
 	// TODO unzip
 	unzip_cmd := [
 		'unzip',
 		file,
 		'-d',
-		dir
+		dir,
 	]
 	run_or_exit(unzip_cmd)
 	return true
